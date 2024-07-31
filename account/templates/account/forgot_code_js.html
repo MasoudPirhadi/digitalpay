@@ -1,0 +1,23 @@
+<div class="card-body">
+    <p class="login-box-msg">کد تایید</p>
+    <form action="{% url 'forgot_verify' %}" method="post" id="verify_forgot_form">
+        {{ csrf }}
+        <div class="input-group mb-3">
+            {{ form.code }}
+            <div class="input-group-append">
+                <div class="input-group-text brClass">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+            <p id="errors">{{ form.code.errors }}</p>
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">ثبت</button>
+            </div>
+            <!-- /.col -->
+        </div>
+    </form>
+</div>
+<!-- /.card-body -->

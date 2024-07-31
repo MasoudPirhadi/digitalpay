@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> صفحه ورود </title>
+
+    {% include 'digitalpay/header_refrences.html' %}
+</head>
+<body class="hold-transition login-page" dir="rtl">
+<div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="{% url 'home' %}" class="h1"><b>شرکت </b>گویا</a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">ورود</p>
+
+            <form action="{% url 'login' %}" method="post" id="login_form">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    {{ form.mobile }}
+                    <div class="input-group-append">
+                        <div class="input-group-text brClass">
+                            <span class="fas fa-phone"></span>
+                        </div>
+                    </div>
+                </div>
+                {% if form.mobile.errors %}
+                    <p id="errors">{{ form.mobile.errors }}</p>
+                {% endif %}
+                <div class="input-group mb-3">
+                    {{ form.password }}
+                    <div class="input-group-append">
+                        <div class="input-group-text brClass">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                {% if form.password.errors %}
+                    <p id="errors">{{ form.password.errors }}</p>
+                {% endif %}
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block" disabled>ورود</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <p class="mb-1">
+                    <a href="{% url 'forgot' %}">فراموشی رمز عبور</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{% url 'register' %}" class="text-center">ثبت نام کنید</a>
+                </p>
+            </form>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<!-- /.login-box -->
+
+{% include 'digitalpay/footer_refrences.html' %}
+</body>
+</html>

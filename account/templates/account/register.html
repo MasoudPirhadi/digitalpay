@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>عضویت در سایت</title>
+
+    {% include 'digitalpay/header_refrences.html' %}
+
+</head>
+<body class="hold-transition register-page" dir="rtl">
+<div class="register-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="{% url 'register' %}" class="h1"><b>شرکت </b>گویا</a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">عضویت جدید</p>
+                <p id="errors"></p>
+
+            <form action="{% url 'register' %}" method="post" class="register_form">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    {{ form.username }}
+                    <div class="input-group-append">
+                        <div class="input-group-text brClass">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.mobile }}
+                    <div class="input-group-append">
+                        <div class="input-group-text brClass">
+                            <span class="fas fa-phone"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.password }}
+                    <div class="input-group-append">
+                        <div class="input-group-text brClass">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.password2 }}
+                    <div class="input-group-append">
+                        <div class="input-group-text brClass">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block" disabled>عضویت</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <br>
+            </form>
+
+            <a href="{% url 'login' %}" class="text-center">من در حال حاضر عضو هستم</a>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+
+{% include 'digitalpay/footer_refrences.html' %}
+</body>
+</html>
