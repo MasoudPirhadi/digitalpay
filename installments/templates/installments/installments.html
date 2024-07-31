@@ -1,6 +1,10 @@
 {% extends 'digitalpay/base.html' %}
 {% load tags %}
 
+{% block title %}
+	لیست اقساط
+{% endblock %}
+
 {% block content %}
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -8,12 +12,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>جداول ساده</h1>
+                        <h1>لیست اقساط</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">صفحه نخست</a></li>
-                            <li class="breadcrumb-item active">جداول ساده</li>
+                            <li class="breadcrumb-item"><a href="{% url 'home' %}">صفحه نخست</a></li>
+                            <li class="breadcrumb-item active">لیست اقساط</li>
                         </ol>
                     </div>
                 </div>
