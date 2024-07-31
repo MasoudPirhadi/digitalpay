@@ -76,7 +76,9 @@
                                             {% endif %}
                                         </span></td>
                                             <td>
-                                                <a href="{% url 'installment_detail' installment.Installment_id %}" class="btn btn-primary">لیست اقساط</a>
+                                                {% if not installment.is_done %}
+                                                	<a href="{% url 'installment_detail' installment.Installment_id %}" class="btn btn-primary">لیست اقساط</a>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}

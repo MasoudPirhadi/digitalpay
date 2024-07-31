@@ -29,6 +29,6 @@ class Installment_products(View):
 
 class InstallmentDetail(View):
     def get(self, request, installment_id):
-        installment = get_object_or_404(Installment, Installment_id=installment_id)
+        installment = get_object_or_404(Installment, Installment_id=installment_id, is_done=False)
         products = installment.product_name.all()
         return HttpResponse(products)
