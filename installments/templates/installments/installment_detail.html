@@ -1,0 +1,89 @@
+{% extends 'digitalpay/base.html' %}
+{% load tags %}
+
+{% block title %}
+     لیست اقساط  {{ installment.Installment_id }}
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>لیست اقساط {{ installment.Installment_id }}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'home' %}">صفحه نخست</a></li>
+                            <li class="breadcrumb-item active">لیست اقساط {{ installment.Installment_id }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive p-0" style="height: 660px;">
+                                <table class="table table-head-fixed text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>شناسه</th>
+                                        <th>مبلغ</th>
+                                        <th>تاریخ سر رسید</th>
+                                        <th>تاریخ پرداخت</th>
+                                        <th>وضعیت</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for ins in installment.installmentdetail_set.all %}
+                                        <tr>
+                                            <td>{{ ins.id_installment }}</td>
+                                            <td>{{ ins.amount | three_digits_currency }}</td>
+                                            <td>{{ ins.due_date }}</td>
+                                            <td>
+                                                {% if not ins.payment_date %}
+                                                	-
+                                                    {% else %}
+                                                    {{ ins.payment_date }}
+                                                {% endif %}
+                                            </td>
+                                            <td><span class="tag tag-success">
+                                            {% if ins.is_paid %}
+                                                <i class="fa fa-check" style="color: green"></i>&nbsp;<span style="color: green">پرداخت شده</span>
+                                            {% else %}
+                                                <i class="fa fa-times" style="color: red"></i>&nbsp;<span style="color: red">پرداخت نشده</span>
+                                            {% endif %}
+                                        </span></td>
+                                            <td>
+                                                {% if not ins.is_paid %}
+                                                    <a href="#" class="btn btn-success"><i class="fa fa-credit-card mr-2"></i>پرداخت</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+{% endblock %}

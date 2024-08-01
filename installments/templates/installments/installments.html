@@ -2,7 +2,7 @@
 {% load tags %}
 
 {% block title %}
-	لیست اقساط
+    لیست اقساط
 {% endblock %}
 
 {% block content %}
@@ -36,11 +36,12 @@
                                 <table class="table table-head-fixed text-nowrap">
                                     <thead>
                                     <tr>
-                                        <th>ردیف</th>
+                                        <th>شناسه</th>
                                         <th>کاربر</th>
                                         <th>مبلغ</th>
                                         <th>تاریخ</th>
                                         <th>نام کالا</th>
+                                        <th>تعداد اقساط</th>
                                         <th>وضعیت</th>
                                         <th></th>
                                     </tr>
@@ -68,6 +69,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>{{ installment.installments }}</td>
                                             <td><span class="tag tag-success">
                                             {% if installment.is_done %}
                                                 <i class="fa fa-check" style="color: green"></i>&nbsp;<span style="color: green">اتمام اقساط</span>
@@ -77,7 +79,7 @@
                                         </span></td>
                                             <td>
                                                 {% if not installment.is_done %}
-                                                	<a href="{% url 'installment_detail' installment.Installment_id %}" class="btn btn-primary">لیست اقساط</a>
+                                                    <a href="{% url 'installment_detail' installment.Installment_id %}" class="btn btn-primary">لیست اقساط</a>
                                                 {% endif %}
                                             </td>
                                         </tr>
