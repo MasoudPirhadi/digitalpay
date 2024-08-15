@@ -123,13 +123,16 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'account.User'
 
+MEDIA_ROOT = BASE_DIR / 'medias'
+MEDIA_URL = '/medias/'
+
+
 STATIC_URL = 'static/'
 # STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-MEDIA_ROOT = BASE_DIR / 'medias'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
