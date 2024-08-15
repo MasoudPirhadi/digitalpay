@@ -9,7 +9,7 @@ from installments.models import Installment
 # Create your views here.
 
 
-class Installments(View):
+class Installments(mixins.LoginRequiredMixin, View):
     def get(self, request):
         installments = Installment.objects.filter(user_id=request.user.id).order_by('is_done')
         return render(request, 'installments/installments.html', {
@@ -17,7 +17,7 @@ class Installments(View):
         })
 
 
-class Installment_products(View):
+class Installment_products(mixins.LoginRequiredMixin, View):
     def get(self, request, installment_id):
         installment = get_object_or_404(Installment, Installment_id=installment_id)
         products = installment.product_name.all()
@@ -27,7 +27,7 @@ class Installment_products(View):
         })
 
 
-class InstallmentDetail(View):
+class InstallmentDetail(mixins.LoginRequiredMixin, View):
     def get(self, request, installment_id):
         installment = get_object_or_404(Installment, Installment_id=installment_id, is_done=False)
         return render(request, 'installments/installment_detail.html', {

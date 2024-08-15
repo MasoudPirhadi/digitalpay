@@ -1,7 +1,7 @@
 import random
 import uuid
 
-from django.contrib.auth import login
+from django.contrib.auth import login, mixins, logout
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest, JsonResponse
@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views import View
 
+from account import mixins
 from account.forms import LoginForm, RegisterForm, VerifyCode, ForgotForm, ForgotCode, NewPasswordForm
 from account.models import User
 
@@ -19,7 +20,7 @@ from account.models import User
 # Create your views here.
 
 
-class Login(View):
+class Login(mixins.RediretToHome, View):
     def get(self, request):
         form = LoginForm()
         return render(request, 'account/login.html', {'form': form})
@@ -34,7 +35,10 @@ class Login(View):
                 if check_password(password, user.password):
                     if user.is_active:
                         login(request, user)
-                        return redirect(reverse('home'))
+                        if user.is_superuser or user.is_staff:
+                            return redirect(reverse('home'))
+                        else:
+                            return redirect(reverse('installments'))
                     else:
                         form.add_error('password', 'حساب کاربری شما هنوز فعال نشده است')
                 else:
@@ -47,7 +51,7 @@ class Login(View):
         return render(request, 'account/login.html', {'form': form})
 
 
-class Register(View):
+class Register(mixins.RediretToHome, View):
     def get(self, request):
         form = RegisterForm()
         return render(request, 'account/register.html', {'form': form})
@@ -85,7 +89,7 @@ class Register(View):
         })
 
 
-class VerifyRegistration(View):
+class VerifyRegistration(mixins.RediretToHome, View):
     def post(self, request):
         form = VerifyCode(request.POST)
         if form.is_valid():
@@ -111,7 +115,7 @@ class VerifyRegistration(View):
         })
 
 
-class ForgotPassword(View):
+class ForgotPassword(mixins.RediretToHome, View):
     def get(self, request):
         form = ForgotForm()
         return render(request, 'account/forgot_password.html', {'form': form})
@@ -141,7 +145,7 @@ class ForgotPassword(View):
         render(request, 'account/forgot_password.html', {'form': form})
 
 
-class VerifyForgotPassword(View):
+class VerifyForgotPassword(mixins.RediretToHome, View):
     def post(self, request):
         form = ForgotCode(request.POST)
         if form.is_valid():
@@ -164,7 +168,7 @@ class VerifyForgotPassword(View):
         })
 
 
-class SetNewPassword(View):
+class SetNewPassword(mixins.RediretToHome, View):
     def post(self, request):
         form = NewPasswordForm(request.POST)
         if form.is_valid():
@@ -184,3 +188,8 @@ class SetNewPassword(View):
             'status': 'errors',
             'errors': form.errors
         })
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('login'))

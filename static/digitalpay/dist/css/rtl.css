@@ -941,7 +941,8 @@ input.form-control.inputBrClass {
     font-weight: 600;
     font-size: 14px;
 }
-.errorlist>li {
+
+.errorlist > li {
     display: block;
     text-decoration: none;
 }
@@ -961,4 +962,12 @@ input.form-control.inputBrClass {
     margin: 0 auto;
     font-size: 16px;
     font-weight: 600;
+}
+
+#icon_denied {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    font-size: 12rem;
+    color: rgba(125, 126, 125, 0.27);
 }

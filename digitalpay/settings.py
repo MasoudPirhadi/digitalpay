@@ -126,6 +126,9 @@ AUTH_USER_MODEL = 'account.User'
 MEDIA_ROOT = BASE_DIR / 'medias'
 MEDIA_URL = '/medias/'
 
+LOGIN_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/installments/'
 
 STATIC_URL = 'static/'
 # STATIC_ROOT = BASE_DIR / 'static'

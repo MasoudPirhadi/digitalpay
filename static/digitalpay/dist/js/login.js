@@ -47,7 +47,7 @@ $(document).on('submit', '#verify_form', function (e) {
         data: $(this).serialize(),
         success: function (res) {
             if (res.status === 'success') {
-                window.location.href = '/l/'
+                window.location.href = '/installments/'
             } else if (res.status === 'invalid') {
                 document.getElementById('errors').innerHTML = '<i class="fa fa-info-circle"></i> &nbsp;&nbsp;' + (res.msg)
             } else if (res.status === 'errors') {

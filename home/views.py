@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import mixins
 from django.contrib.messages import SUCCESS, success
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
@@ -14,7 +15,7 @@ from home.models import SideBars
 # Create your views here.
 
 
-class Index(View):
+class Index(mixins.LoginRequiredMixin, View):
     def get(self, request):
         user = request.user.username
         return render(request, 'home/index.html', {'user': user})
@@ -27,7 +28,7 @@ def sidebar(request):
     })
 
 
-class ProfileView(View):
+class ProfileView(mixins.LoginRequiredMixin, View):
     def get(self, request: HttpRequest):
         form = ProfileForm(instance=request.user)
         return render(request, 'home/profile.html', {'form': form})
