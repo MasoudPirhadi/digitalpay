@@ -16,16 +16,26 @@ from home.models import SideBars
 
 
 class Index(mixins.LoginRequiredMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser or not request.user.is_staff:
+            return redirect('installments')
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request):
         user = request.user.username
         return render(request, 'home/index.html', {'user': user})
 
 
-def sidebar(request):
-    sidebars = SideBars.objects.filter(is_active=True)
-    return render(request, 'digitalpay/sidebar.html', {
-        'sidebars': sidebars,
-    })
+class Sidebar(View):
+    def get(self, request):
+        if request.user.is_superuser or request.user.is_staff:
+            sidebars = SideBars.objects.filter(is_active=True)
+        else:
+            sidebars = SideBars.objects.filter(is_active=True).first()
+            sidebars = SideBars.objects.filter(is_active=True).exclude(id=sidebars.pk)
+        return render(request, 'digitalpay/sidebar.html', {
+            'sidebars': sidebars,
+        })
 
 
 class ProfileView(mixins.LoginRequiredMixin, View):
@@ -40,4 +50,3 @@ class ProfileView(mixins.LoginRequiredMixin, View):
             success(request, 'اطلاعات شما با موفقیت بروز شدند.')
             return redirect('profile')
         return render(request, 'home/profile.html', {'form': form})
-
