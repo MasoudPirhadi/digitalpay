@@ -1,13 +1,11 @@
-from django.contrib import messages
+import requests
 from django.contrib.auth import mixins
-from django.contrib.messages import SUCCESS, success
+from django.contrib.messages import success
 from django.http import HttpRequest
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.crypto import get_random_string
+from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView
 
-from account.models import User
+from digitalpay import settings
 from home.forms import ProfileForm
 from home.models import SideBars
 
@@ -23,7 +21,18 @@ class Index(mixins.LoginRequiredMixin, View):
 
     def get(self, request):
         user = request.user.username
-        return render(request, 'home/index.html', {'user': user})
+        url = "https://api.sms.ir/v1/credit"
+        headers = {
+            'Accept': 'text/plain',
+            "X-API-KEY": settings.SMS_API_KEY
+        }
+        conn = requests.request(method="GET", url=url, headers=headers)
+        if conn.status_code == 200:
+            data = conn.json()
+            smscount = data['data']
+        else:
+            smscount = "Error!"
+        return render(request, 'home/index.html', {'user': user, "smsCount": smscount})
 
 
 class Sidebar(View):
@@ -50,3 +59,26 @@ class ProfileView(mixins.LoginRequiredMixin, View):
             success(request, 'اطلاعات شما با موفقیت بروز شدند.')
             return redirect('profile')
         return render(request, 'home/profile.html', {'form': form})
+
+
+class VerifyCode(View):
+    def post(self, request):
+        url = "https://api.sms.ir/v1/send/verify"
+        data = {
+            "mobile": "09126515289",
+            "templateId": 549059,
+            "parameters": [
+                {
+                    "name": "CODE",
+                    "value": "8585"
+                }
+            ]
+        }
+        headers = {
+            "X-API-KEY": "qkdS9GHskTszxfAlwLtGgb3mm0fKN1k4rdn8t49bzlLezkJ2FgnD143RrFP1frXq"
+        }
+        key = "qkdS9GHskTszxfAlwLtGgb3mm0fKN1k4rdn8t49bzlLezkJ2FgnD143RrFP1frXq"
+        conn = requests.post(url=url, headers=headers, data=data)
+        y = conn.request
+        print(y)
+        return render(request, )
