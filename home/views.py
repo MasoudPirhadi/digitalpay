@@ -8,6 +8,7 @@ from django.views import View
 from digitalpay import settings
 from home.forms import ProfileForm
 from home.models import SideBars
+from installments.models import Installment
 
 
 # Create your views here.
@@ -32,16 +33,18 @@ class Index(mixins.LoginRequiredMixin, View):
             smscount = data['data']
         else:
             smscount = "Error!"
-        return render(request, 'home/index.html', {'user': user, "smsCount": smscount})
+
+        installment_count = Installment.objects.filter(is_done=False).count()
+        return render(request, 'home/index.html', {'user': user, "smsCount": smscount, "installment_count": installment_count})
 
 
 class Sidebar(View):
     def get(self, request):
         if request.user.is_superuser or request.user.is_staff:
-            sidebars = SideBars.objects.filter(is_active=True)
+            sidebars = SideBars.objects.filter(is_active=True).order_by('position')
         else:
             sidebars = SideBars.objects.filter(is_active=True).first()
-            sidebars = SideBars.objects.filter(is_active=True).exclude(id=sidebars.pk)
+            sidebars = SideBars.objects.filter(is_active=True).exclude(id=sidebars.pk).order_by('position')
         return render(request, 'digitalpay/sidebar.html', {
             'sidebars': sidebars,
         })
@@ -61,24 +64,3 @@ class ProfileView(mixins.LoginRequiredMixin, View):
         return render(request, 'home/profile.html', {'form': form})
 
 
-class VerifyCode(View):
-    def post(self, request):
-        url = "https://api.sms.ir/v1/send/verify"
-        data = {
-            "mobile": "09126515289",
-            "templateId": 549059,
-            "parameters": [
-                {
-                    "name": "CODE",
-                    "value": "8585"
-                }
-            ]
-        }
-        headers = {
-            "X-API-KEY": "qkdS9GHskTszxfAlwLtGgb3mm0fKN1k4rdn8t49bzlLezkJ2FgnD143RrFP1frXq"
-        }
-        key = "qkdS9GHskTszxfAlwLtGgb3mm0fKN1k4rdn8t49bzlLezkJ2FgnD143RrFP1frXq"
-        conn = requests.post(url=url, headers=headers, data=data)
-        y = conn.request
-        print(y)
-        return render(request, )

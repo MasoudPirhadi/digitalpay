@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'account',
     'home',
     'installments',
+    'sms_panel',
     'tags',
 ]
 

@@ -1,5 +1,6 @@
 {% extends 'digitalpay/base.html' %}
 {% load tags %}
+{% load jalali_tags %}
 
 {% block title %}
      لیست اقساط  {{ installment.Installment_id }}
@@ -49,12 +50,12 @@
                                         <tr>
                                             <td>{{ ins.id_installment }}</td>
                                             <td>{{ ins.amount | three_digits_currency }}</td>
-                                            <td>{{ ins.due_date }}</td>
+                                            <td>{{ ins.due_date | to_jalali:"%Y/%m/%d" }}</td>
                                             <td>
                                                 {% if not ins.payment_date %}
                                                 	-
                                                     {% else %}
-                                                    {{ ins.payment_date }}
+                                                    {{ ins.payment_date | to_jalali:"%Y/%m/%d" }}
                                                 {% endif %}
                                             </td>
                                             <td><span class="tag tag-success">

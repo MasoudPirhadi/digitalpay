@@ -1,0 +1,82 @@
+{% extends 'digitalpay/base.html' %}
+
+{% block title %}پنل پیامکی{% endblock %}
+
+{% block content %}
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>پنل پیامکی</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'home' %}">صفحه نخست</a></li>
+                            <li class="breadcrumb-item active">پنل پیامکی</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">خطوط</span>
+                                        {% for line in lines %}
+                                        <span class="info-box-number text-center text-muted mb-0">{{ line | default:"خطوط فعال ندارید!" }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">تعداد پیامک های باقیمانده</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{ smscount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">گزارش ارسال های امروز</span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{ report_today.count | default:0 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                        <h3 class="text-primary"><i class="fas fa-paint-brush"></i> اطلاعات پنل</h3>
+                        <p class="text-muted">
+                            پنل پیامکی مورد استفاده دارای قابلیت های دیگری نیز می باشد که برای دریافت گزارش های بیشتر و شارژ اعتبار پیامکی می بایست از طریق دکمه زیر وارد پنل شده و انجام دهید.
+                        </p>
+                        <br>
+                        <div class="text-muted">
+                            <p class="text-sm">نام شرکت
+                                <b class="d-block">sms.ir</b>
+                            </p>
+                        </div>
+
+                        <div class="text-center mt-5 mb-3">
+                            <a href="https://app.sms.ir/" target="_blank" class="btn btn-sm btn-warning">ورود به پنل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+{% endblock %}
