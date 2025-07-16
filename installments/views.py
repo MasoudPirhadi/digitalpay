@@ -11,7 +11,10 @@ from installments.models import Installment
 
 class Installments(mixins.LoginRequiredMixin, View):
     def get(self, request):
-        installments = Installment.objects.filter(user_id=request.user.id).order_by('is_done')
+        if request.user.is_superuser or request.user.is_staff:
+            installments = Installment.objects.all().order_by('is_done')
+        else:
+            installments = Installment.objects.filter(user_id=request.user.id).order_by('is_done')
         return render(request, 'installments/installments.html', {
             'installments': installments,
         })

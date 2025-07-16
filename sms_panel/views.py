@@ -24,7 +24,7 @@ class SmsPanel(View):
         connect_credit = requests.request(method="GET", url=url_credit, headers=headers)
         if connect_credit.status_code == 200:
             data = connect_credit.json()
-            smscount = data['data']
+            smscount = round(data['data'])
         else:
             smscount = "Error!"
 

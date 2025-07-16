@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views import View
 
+from account.models import User
 from digitalpay import settings
 from home.forms import ProfileForm
 from home.models import SideBars
@@ -35,7 +36,11 @@ class Index(mixins.LoginRequiredMixin, View):
             smscount = "Error!"
 
         installment_count = Installment.objects.filter(is_done=False).count()
-        return render(request, 'home/index.html', {'user': user, "smsCount": smscount, "installment_count": installment_count})
+        users = User.objects.count()
+        return render(request, 'home/index.html', {
+            'user': user, "smsCount": smscount, "installment_count": installment_count,
+            "users": users,
+        })
 
 
 class Sidebar(View):
@@ -43,8 +48,7 @@ class Sidebar(View):
         if request.user.is_superuser or request.user.is_staff:
             sidebars = SideBars.objects.filter(is_active=True).order_by('position')
         else:
-            sidebars = SideBars.objects.filter(is_active=True).first()
-            sidebars = SideBars.objects.filter(is_active=True).exclude(id=sidebars.pk).order_by('position')
+            sidebars = SideBars.objects.filter(is_active=True, is_admin=False).order_by('position')
         return render(request, 'digitalpay/sidebar.html', {
             'sidebars': sidebars,
         })
@@ -62,5 +66,3 @@ class ProfileView(mixins.LoginRequiredMixin, View):
             success(request, 'اطلاعات شما با موفقیت بروز شدند.')
             return redirect('profile')
         return render(request, 'home/profile.html', {'form': form})
-
-
