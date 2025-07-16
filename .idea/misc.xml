@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (digitalpay) (2)" project-jdk-type="Python SDK" />
+  <component name="Black">
+    <option name="sdkName" value="Python 3.11 virtualenv at D:\github\digitalpay\.venv" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (digitalpay)" project-jdk-type="Python SDK" />
 </project>

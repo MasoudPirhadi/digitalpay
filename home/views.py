@@ -30,7 +30,7 @@ class Index(mixins.LoginRequiredMixin, View):
         conn = requests.request(method="GET", url=url, headers=headers)
         if conn.status_code == 200:
             data = conn.json()
-            smscount = data['data']
+            smscount = round(data['data'])
         else:
             smscount = "Error!"
 

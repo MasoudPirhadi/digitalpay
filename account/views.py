@@ -94,6 +94,7 @@ class VerifyRegistration(mixins.RediretToHome, View):
         form = VerifyCode(request.POST)
         if form.is_valid():
             code = form.cleaned_data['code']
+            print(request.session.get('random_code'))
             if str(code) == str(request.session.get('random_code')):
                 register_info = request.session.get('registration_info')
                 new_user = User(username=register_info['username'], phone=register_info['mobile'], is_active=True, is_superuser=False, is_staff=False)
